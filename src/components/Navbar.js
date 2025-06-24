@@ -26,7 +26,6 @@ const Navbar = () => {
           </div>
           <span className="logo-text">
             <span className="logo-primary">StartRit</span>
-            <span className="logo-secondary">DeepTech</span>
           </span>
         </Link>
         
