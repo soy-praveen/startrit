@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Add useNavigate import
 import BackgroundAnimation from '../components/BackgroundAnimation';
 import './AuthPages.css';
 
 const LoginPage = () => {
+  const navigate = useNavigate(); // Add this line to get navigate function
+  
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -28,6 +30,8 @@ const LoginPage = () => {
     setTimeout(() => {
       setIsLoading(false);
       console.log('Login attempt:', formData);
+      // Redirect to dashboard
+      navigate('/dashboard');
     }, 2000);
   };
 

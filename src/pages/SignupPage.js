@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Add useNavigate import
 import BackgroundAnimation from '../components/BackgroundAnimation';
 import './AuthPages.css';
 
 const SignupPage = () => {
+  const navigate = useNavigate(); // Add this line to get navigate function
+  
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -58,6 +60,8 @@ const SignupPage = () => {
     setTimeout(() => {
       setIsLoading(false);
       console.log('Signup attempt:', formData);
+      // Redirect to OTP verification
+      navigate('/verify-otp');
     }, 2000);
   };
 
