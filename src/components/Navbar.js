@@ -1,21 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import './Navbar.css';
 
 const Navbar = () => {
+  const [scrolled, setScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 50;
+      setScrolled(isScrolled);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <nav className="navbar">
+    <nav className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`}>
       <div className="nav-container">
-        <div className="nav-logo">
-          <span className="logo-text">StartRit</span>
-        </div>
+        <Link to="/" className="nav-logo">
+          <div className="logo-icon">
+            <div className="logo-dot"></div>
+            <div className="logo-ring"></div>
+          </div>
+          <span className="logo-text">
+            <span className="logo-primary">StartRit</span>
+            <span className="logo-secondary">DeepTech</span>
+          </span>
+        </Link>
         
         <div className={`nav-menu ${isMenuOpen ? 'nav-menu-active' : ''}`}>
-          <a href="#hire" className="nav-link">Hire Developers</a>
-          <a href="#work" className="nav-link">Find Work</a>
-          <a href="#faqs" className="nav-link">FAQs</a>
-          <a href="#about" className="nav-link">About</a>
+          <a href="#hire" className="nav-link">
+            <span className="nav-link-text">Hire Developers</span>
+            <div className="nav-link-underline"></div>
+          </a>
+          <a href="#work" className="nav-link">
+            <span className="nav-link-text">Find Work</span>
+            <div className="nav-link-underline"></div>
+          </a>
+          <a href="#faqs" className="nav-link">
+            <span className="nav-link-text">FAQs</span>
+            <div className="nav-link-underline"></div>
+          </a>
+          <a href="#about" className="nav-link">
+            <span className="nav-link-text">About</span>
+            <div className="nav-link-underline"></div>
+          </a>
         </div>
 
         <div className="nav-search">
@@ -34,8 +65,13 @@ const Navbar = () => {
         </div>
         
         <div className="nav-actions">
-          <button className="login-btn">Login</button>
-          <button className="signup-btn">Sign Up</button>
+          <Link to="/login" className="login-btn">
+            <span className="btn-content">Login</span>
+          </Link>
+          <Link to="/signup" className="signup-btn">
+            <span className="btn-content">Sign Up</span>
+            <div className="btn-shine"></div>
+          </Link>
         </div>
 
         <button 

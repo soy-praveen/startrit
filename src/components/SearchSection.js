@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './SearchSection.css';
 
 const SearchSection = () => {
@@ -30,8 +31,16 @@ const SearchSection = () => {
         </form>
 
         <div className="action-buttons">
-          <button className="btn-primary">Hire Developers</button>
-          <button className="btn-secondary">Become Developer</button>
+          <Link to="/signup" className="btn-primary">
+            <span className="btn-text">Hire Developers</span>
+            <div className="btn-glow"></div>
+          </Link>
+          <Link to="/signup" className="btn-secondary">
+            <span className="btn-content">
+              <span className="btn-text">Become Developer</span>
+            </span>
+            <div className="btn-border"></div>
+          </Link>
         </div>
       </div>
     </section>

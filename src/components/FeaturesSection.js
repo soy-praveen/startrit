@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import './FeaturesSection.css';
 
 const FeaturesSection = () => {
@@ -141,9 +142,9 @@ const FeaturesSection = () => {
               ))}
             </div>
             
-            <button className="cta-button client-button">
+            <Link to="/signup" className="cta-button client-button">
               Become a Client
-            </button>
+            </Link>
           </div>
 
           {/* For Developers */}
@@ -169,9 +170,9 @@ const FeaturesSection = () => {
               ))}
             </div>
             
-            <button className="cta-button developer-button">
+            <Link to="/signup" className="cta-button developer-button">
               Become a Developer
-            </button>
+            </Link>
           </div>
         </div>
       </div>
