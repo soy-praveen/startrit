@@ -23,8 +23,27 @@ const ProfileSetupPage = () => {
     
     // Step 3 - Professional Info
     professionalTitle: '',
-    description: ''
+    description: '',
+    
+    // Step 4 - Skills
+    skills: [],
+    
+    // Step 5 - Education
+    education: [],
+    
+    // Step 6 - Experience
+    experience: [],
+    
+    // Step 7 - Portfolio
+    portfolio: []
   });
+
+  const [skillInput, setSkillInput] = useState('');
+  const [suggestedSkills] = useState([
+    'JavaScript', 'Python', 'React', 'Node.js', 'Machine Learning', 'Data Science',
+    'Artificial Intelligence', 'Blockchain', 'Cloud Computing', 'DevOps', 'UI/UX Design',
+    'Mobile Development', 'Cybersecurity', 'Database Management', 'API Development'
+  ]);
 
   const handleInputChange = (field, value) => {
     setProfileData(prev => ({
@@ -34,7 +53,7 @@ const ProfileSetupPage = () => {
   };
 
   const handleNext = () => {
-    if (currentStep < 3) {
+    if (currentStep < 7) {
       setCurrentStep(currentStep + 1);
     } else {
       // Complete profile setup and go to dashboard
@@ -46,6 +65,91 @@ const ProfileSetupPage = () => {
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
     }
+  };
+
+  const addSkill = (skill) => {
+    if (skill && !profileData.skills.includes(skill)) {
+      setProfileData(prev => ({
+        ...prev,
+        skills: [...prev.skills, skill]
+      }));
+      setSkillInput('');
+    }
+  };
+
+  const removeSkill = (skillToRemove) => {
+    setProfileData(prev => ({
+      ...prev,
+      skills: prev.skills.filter(skill => skill !== skillToRemove)
+    }));
+  };
+
+  const addEducation = () => {
+    setProfileData(prev => ({
+      ...prev,
+      education: [...prev.education, {
+        school: '',
+        degree: '',
+        field: '',
+        startYear: '',
+        endYear: '',
+        description: ''
+      }]
+    }));
+  };
+
+  const updateEducation = (index, field, value) => {
+    setProfileData(prev => ({
+      ...prev,
+      education: prev.education.map((edu, i) => 
+        i === index ? { ...edu, [field]: value } : edu
+      )
+    }));
+  };
+
+  const addExperience = () => {
+    setProfileData(prev => ({
+      ...prev,
+      experience: [...prev.experience, {
+        title: '',
+        company: '',
+        location: '',
+        startDate: '',
+        endDate: '',
+        current: false,
+        description: ''
+      }]
+    }));
+  };
+
+  const updateExperience = (index, field, value) => {
+    setProfileData(prev => ({
+      ...prev,
+      experience: prev.experience.map((exp, i) => 
+        i === index ? { ...exp, [field]: value } : exp
+      )
+    }));
+  };
+
+  const addPortfolioItem = () => {
+    setProfileData(prev => ({
+      ...prev,
+      portfolio: [...prev.portfolio, {
+        title: '',
+        description: '',
+        url: '',
+        image: null
+      }]
+    }));
+  };
+
+  const updatePortfolioItem = (index, field, value) => {
+    setProfileData(prev => ({
+      ...prev,
+      portfolio: prev.portfolio.map((item, i) => 
+        i === index ? { ...item, [field]: value } : item
+      )
+    }));
   };
 
   const renderStep1 = () => (
@@ -216,7 +320,7 @@ const ProfileSetupPage = () => {
           value={profileData.description}
           onChange={(e) => handleInputChange('description', e.target.value)}
           className="form-textarea"
-          placeholder="I'm a passionate deep-tech developer with expertise in artificial intelligence and machine learning. I have been working in the field for over 5 years, specializing in computer vision and natural language processing. I enjoy solving complex problems and creating innovative solutions that make a real impact. My experience includes working with Fortune 500 companies and startups, where I've led teams in developing cutting-edge AI applications..."
+          placeholder="I'm a passionate deep-tech developer with expertise in artificial intelligence and machine learning..."
           rows="8"
         />
         <div className="textarea-info">
@@ -241,6 +345,309 @@ const ProfileSetupPage = () => {
           <li>• Show your passion for deep-tech</li>
           <li>• Keep it professional yet personable</li>
         </ul>
+      </div>
+    </div>
+  );
+
+  const renderStep4 = () => (
+    <div className="setup-step">
+      <h1 className="setup-title">What skills do you have?</h1>
+      <p className="setup-subtitle">Add skills that showcase your expertise and help clients find you</p>
+      
+      <div className="skills-section">
+        <div className="skill-input-section">
+          <div className="skill-input-wrapper">
+            <input
+              type="text"
+              value={skillInput}
+              onChange={(e) => setSkillInput(e.target.value)}
+              className="form-input"
+              placeholder="Type a skill (e.g., JavaScript, Python, Machine Learning)"
+              onKeyPress={(e) => e.key === 'Enter' && addSkill(skillInput)}
+            />
+            <button 
+              onClick={() => addSkill(skillInput)}
+              className="add-skill-btn"
+              disabled={!skillInput.trim()}
+            >
+              Add
+            </button>
+          </div>
+        </div>
+
+        {profileData.skills.length > 0 && (
+          <div className="selected-skills">
+            <h4 className="skills-title">Your Skills:</h4>
+            <div className="skills-list">
+              {profileData.skills.map((skill, index) => (
+                <div key={index} className="skill-tag">
+                  <span>{skill}</span>
+                  <button onClick={() => removeSkill(skill)} className="remove-skill">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2"/>
+                    </svg>
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="suggested-skills">
+          <h4 className="skills-title">Suggested Skills:</h4>
+          <div className="skills-grid">
+            {suggestedSkills.filter(skill => !profileData.skills.includes(skill)).map((skill, index) => (
+              <button
+                key={index}
+                onClick={() => addSkill(skill)}
+                className="suggested-skill-btn"
+              >
+                {skill}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderStep5 = () => (
+    <div className="setup-step">
+      <h1 className="setup-title">Education</h1>
+      <p className="setup-subtitle">Add your educational background</p>
+      
+      <div className="education-section">
+        {profileData.education.map((edu, index) => (
+          <div key={index} className="education-item">
+            <div className="form-row">
+              <div className="form-group">
+                <label className="form-label">School/University</label>
+                <input
+                  type="text"
+                  value={edu.school}
+                  onChange={(e) => updateEducation(index, 'school', e.target.value)}
+                  className="form-input"
+                  placeholder="Harvard University"
+                />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Degree</label>
+                <input
+                  type="text"
+                  value={edu.degree}
+                  onChange={(e) => updateEducation(index, 'degree', e.target.value)}
+                  className="form-input"
+                  placeholder="Bachelor's Degree"
+                />
+              </div>
+            </div>
+            
+            <div className="form-group">
+              <label className="form-label">Field of Study</label>
+              <input
+                type="text"
+                value={edu.field}
+                onChange={(e) => updateEducation(index, 'field', e.target.value)}
+                className="form-input"
+                placeholder="Computer Science"
+              />
+            </div>
+            
+            <div className="form-row">
+              <div className="form-group">
+                <label className="form-label">Start Year</label>
+                <input
+                  type="number"
+                  value={edu.startYear}
+                  onChange={(e) => updateEducation(index, 'startYear', e.target.value)}
+                  className="form-input"
+                  placeholder="2018"
+                />
+              </div>
+              <div className="form-group">
+                <label className="form-label">End Year</label>
+                <input
+                  type="number"
+                  value={edu.endYear}
+                  onChange={(e) => updateEducation(index, 'endYear', e.target.value)}
+                  className="form-input"
+                  placeholder="2022"
+                />
+              </div>
+            </div>
+          </div>
+        ))}
+        
+        <button onClick={addEducation} className="add-item-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2"/>
+          </svg>
+          Add Education
+        </button>
+      </div>
+    </div>
+  );
+
+  const renderStep6 = () => (
+    <div className="setup-step">
+      <h1 className="setup-title">Work Experience</h1>
+      <p className="setup-subtitle">Tell us about your work experience</p>
+      
+      <div className="experience-section">
+        {profileData.experience.map((exp, index) => (
+          <div key={index} className="experience-item">
+            <div className="form-row">
+              <div className="form-group">
+                <label className="form-label">Job Title</label>
+                <input
+                  type="text"
+                  value={exp.title}
+                  onChange={(e) => updateExperience(index, 'title', e.target.value)}
+                  className="form-input"
+                  placeholder="Senior Software Engineer"
+                />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Company</label>
+                <input
+                  type="text"
+                  value={exp.company}
+                  onChange={(e) => updateExperience(index, 'company', e.target.value)}
+                  className="form-input"
+                  placeholder="Google Inc."
+                />
+              </div>
+            </div>
+            
+            <div className="form-group">
+              <label className="form-label">Location</label>
+              <input
+                type="text"
+                value={exp.location}
+                onChange={(e) => updateExperience(index, 'location', e.target.value)}
+                className="form-input"
+                placeholder="San Francisco, CA"
+              />
+            </div>
+            
+            <div className="form-row">
+              <div className="form-group">
+                <label className="form-label">Start Date</label>
+                <input
+                  type="month"
+                  value={exp.startDate}
+                  onChange={(e) => updateExperience(index, 'startDate', e.target.value)}
+                  className="form-input"
+                />
+              </div>
+              <div className="form-group">
+                <label className="form-label">End Date</label>
+                <input
+                  type="month"
+                  value={exp.endDate}
+                  onChange={(e) => updateExperience(index, 'endDate', e.target.value)}
+                  className="form-input"
+                  disabled={exp.current}
+                />
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={exp.current}
+                    onChange={(e) => updateExperience(index, 'current', e.target.checked)}
+                    className="checkbox-input"
+                  />
+                  <span className="checkbox-custom"></span>
+                  Currently working here
+                </label>
+              </div>
+            </div>
+            
+            <div className="form-group">
+              <label className="form-label">Description</label>
+              <textarea
+                value={exp.description}
+                onChange={(e) => updateExperience(index, 'description', e.target.value)}
+                className="form-textarea"
+                placeholder="Describe your role and achievements..."
+                rows="4"
+              />
+            </div>
+          </div>
+        ))}
+        
+        <button onClick={addExperience} className="add-item-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2"/>
+          </svg>
+          Add Experience
+        </button>
+      </div>
+    </div>
+  );
+
+  const renderStep7 = () => (
+    <div className="setup-step">
+      <h1 className="setup-title">Portfolio</h1>
+      <p className="setup-subtitle">Showcase your best work</p>
+      
+      <div className="portfolio-section">
+        {profileData.portfolio.map((item, index) => (
+          <div key={index} className="portfolio-item">
+            <div className="form-group">
+              <label className="form-label">Project Title</label>
+              <input
+                type="text"
+                value={item.title}
+                onChange={(e) => updatePortfolioItem(index, 'title', e.target.value)}
+                className="form-input"
+                placeholder="AI-Powered Chatbot"
+              />
+            </div>
+            
+            <div className="form-group">
+              <label className="form-label">Project URL</label>
+              <input
+                type="url"
+                value={item.url}
+                onChange={(e) => updatePortfolioItem(index, 'url', e.target.value)}
+                className="form-input"
+                placeholder="https://github.com/username/project"
+              />
+            </div>
+            
+            <div className="form-group">
+              <label className="form-label">Description</label>
+              <textarea
+                value={item.description}
+                onChange={(e) => updatePortfolioItem(index, 'description', e.target.value)}
+                className="form-textarea"
+                placeholder="Describe your project and the technologies used..."
+                rows="4"
+              />
+            </div>
+            
+            <div className="form-group">
+              <label className="form-label">Project Image</label>
+              <div className="image-upload-area">
+                <div className="upload-placeholder">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" stroke="currentColor" strokeWidth="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" strokeWidth="2"/>
+                    <polyline points="21,15 16,10 5,21" stroke="currentColor" strokeWidth="2"/>
+                  </svg>
+                  <span>Upload project image</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+        
+        <button onClick={addPortfolioItem} className="add-item-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2"/>
+          </svg>
+          Add Project
+        </button>
       </div>
     </div>
   );
@@ -273,6 +680,10 @@ const ProfileSetupPage = () => {
           {currentStep === 1 && renderStep1()}
           {currentStep === 2 && renderStep2()}
           {currentStep === 3 && renderStep3()}
+          {currentStep === 4 && renderStep4()}
+          {currentStep === 5 && renderStep5()}
+          {currentStep === 6 && renderStep6()}
+          {currentStep === 7 && renderStep7()}
 
           <div className="setup-actions">
             {currentStep > 1 && (
@@ -281,7 +692,7 @@ const ProfileSetupPage = () => {
               </button>
             )}
             <button onClick={handleNext} className="btn-primary">
-              {currentStep === 3 ? 'Continue' : 'Next'}
+              {currentStep === 7 ? 'Complete Setup' : 'Next'}
             </button>
           </div>
         </div>
