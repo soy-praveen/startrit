@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; // Make sure useState is imported
 import { Link } from 'react-router-dom';
 import BackgroundAnimation from '../components/BackgroundAnimation';
 import './TaskListPage.css';
 
 const TaskListPage = () => {
+  const [showBrowseDropdown, setShowBrowseDropdown] = useState(false); // This should be INSIDE the component function
   const [tasks, setTasks] = useState([
     {
       id: 1,
@@ -100,23 +101,133 @@ const TaskListPage = () => {
             </nav>
           </div>
           
-          <div className="header-actions">
-            <div className="notification-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="currentColor" strokeWidth="2"/>
-                <path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="currentColor" strokeWidth="2"/>
-              </svg>
-            </div>
-            <button className="post-project-btn">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2"/>
-              </svg>
-              Post a Project
-            </button>
-            <div className="earnings-display">
-              <span className="earnings-amount">${user.earnings.toLocaleString()}</span>
+<div className="header-nav">
+  <nav className="main-nav">
+    <div 
+      className="nav-item-wrapper"
+      onMouseEnter={() => setShowBrowseDropdown(true)}
+      onMouseLeave={() => setShowBrowseDropdown(false)}
+    >
+      <a href="#browse" className="nav-item">Browse</a>
+      
+      {/* Browse Dropdown */}
+      <div className={`browse-dropdown ${showBrowseDropdown ? 'dropdown-visible' : ''}`}>
+        <div className="dropdown-content">
+          <div className="dropdown-section">
+            <h3 className="dropdown-title">Search</h3>
+            <div className="dropdown-items">
+              <a href="#projects" className="dropdown-item">
+                <div className="dropdown-icon projects-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" stroke="currentColor" strokeWidth="2"/>
+                    <rect x="7" y="7" width="3" height="9" fill="currentColor"/>
+                    <rect x="14" y="7" width="3" height="5" fill="currentColor"/>
+                  </svg>
+                </div>
+                <div className="dropdown-item-content">
+                  <h4>Projects</h4>
+                  <p>Explore exciting new project opportunities now!</p>
+                </div>
+              </a>
+              
+              <a href="#contests" className="dropdown-item">
+                <div className="dropdown-icon contests-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5C6 4 6 6 6 9zM18 9h1.5a2.5 2.5 0 0 0 0-5C18 4 18 6 18 9z" stroke="currentColor" strokeWidth="2"/>
+                    <path d="M6 9h12v6a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3V9z" stroke="currentColor" strokeWidth="2"/>
+                  </svg>
+                </div>
+                <div className="dropdown-item-content">
+                  <h4>Contests</h4>
+                  <p>Unleash your talent and win Freelancer contests!</p>
+                </div>
+              </a>
+              
+              <a href="#freelancers" className="dropdown-item">
+                <div className="dropdown-icon freelancers-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" strokeWidth="2"/>
+                    <circle cx="12" cy="7" r="4" stroke="currentColor" strokeWidth="2"/>
+                  </svg>
+                </div>
+                <div className="dropdown-item-content">
+                  <h4>Freelancers</h4>
+                  <p>Find top-rated freelancers for your project</p>
+                </div>
+              </a>
             </div>
           </div>
+          
+          <div className="dropdown-section">
+            <h3 className="dropdown-title">Freelancing Tools</h3>
+            <div className="dropdown-items">
+              <a href="#verified" className="dropdown-item">
+                <div className="dropdown-icon verified-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M9 12l2 2 4-4" stroke="currentColor" strokeWidth="2"/>
+                    <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3" stroke="currentColor" strokeWidth="2"/>
+                  </svg>
+                </div>
+                <div className="dropdown-item-content">
+                  <h4>Verified by Freelancer</h4>
+                  <p>Increase your chances of winning projects</p>
+                </div>
+              </a>
+              
+              <a href="#preferred" className="dropdown-item">
+                <div className="dropdown-icon preferred-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" stroke="currentColor" strokeWidth="2"/>
+                  </svg>
+                </div>
+                <div className="dropdown-item-content">
+                  <h4>Preferred Freelancer</h4>
+                  <p>Access exclusive projects and stand out</p>
+                </div>
+              </a>
+            </div>
+          </div>
+          
+          <div className="dropdown-section">
+            <h3 className="dropdown-title">Client Tools</h3>
+            <div className="dropdown-items">
+              <a href="#recruiter" className="dropdown-item">
+                <div className="dropdown-icon recruiter-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" strokeWidth="2"/>
+                    <circle cx="8.5" cy="7" r="4" stroke="currentColor" strokeWidth="2"/>
+                    <path d="M20 8v6M23 11l-3 3-3-3" stroke="currentColor" strokeWidth="2"/>
+                  </svg>
+                </div>
+                <div className="dropdown-item-content">
+                  <h4>Recruiter</h4>
+                  <p>Get assistance finding the perfect freelancer</p>
+                </div>
+              </a>
+              
+              <a href="#enterprise" className="dropdown-item">
+                <div className="dropdown-icon enterprise-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M3 21h18M5 21V7l8-4v18M19 21V10l-6-3" stroke="currentColor" strokeWidth="2"/>
+                  </svg>
+                </div>
+                <div className="dropdown-item-content">
+                  <h4>Enterprise</h4>
+                  <p>Turn your organization's ideas into reality</p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <a href="#manage" className="nav-item">Manage</a>
+    <a href="#communities" className="nav-item">Communities</a>
+    <a href="#blog" className="nav-item">Post Blog</a>
+  </nav>
+</div>
+
         </div>
       </header>
 
