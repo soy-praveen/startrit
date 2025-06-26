@@ -48,10 +48,15 @@ const OtpVerificationPage = () => {
     e.preventDefault();
     const otpValue = otp.join('');
     
-    if (otpValue.length !== 6) {
-      setError('Please enter all 6 digits');
-      return;
+    if (otpValue === '123456') {
+      // Success - redirect to profile setup
+      navigate('/profile-setup');
+    } else {
+      setError('Invalid OTP. Please try again.');
+      setOtp(['', '', '', '', '', '']);
+      document.getElementById('otp-0').focus();
     }
+
 
     setIsLoading(true);
     setError('');
