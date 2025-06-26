@@ -30,14 +30,7 @@ const Navbar = () => {
         </Link>
         
         <div className={`nav-menu ${isMenuOpen ? 'nav-menu-active' : ''}`}>
-          <a href="#hire" className="nav-link">
-            <span className="nav-link-text">Hire Developers</span>
-            <div className="nav-link-underline"></div>
-          </a>
-          <a href="#work" className="nav-link">
-            <span className="nav-link-text">Find Work</span>
-            <div className="nav-link-underline"></div>
-          </a>
+        
           <a href="#faqs" className="nav-link">
             <span className="nav-link-text">FAQs</span>
             <div className="nav-link-underline"></div>
