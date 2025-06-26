@@ -69,6 +69,14 @@ const DashboardPage = () => {
           
           <div className="header-nav">
             <nav className="main-nav">
+               <a href="#hire" className="nav-link">
+            <span className="nav-link-text">Hire Developers</span>
+            <div className="nav-link-underline"></div>
+          </a>
+          <a href="#work" className="nav-link">
+            <span className="nav-link-text">Find Work</span>
+            <div className="nav-link-underline"></div>
+          </a>
               <a href="#browse" className="nav-item">Browse</a>
               <a href="#manage" className="nav-item">Manage</a>
               <a href="#communities" className="nav-item">Communities</a>
