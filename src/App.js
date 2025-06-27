@@ -8,7 +8,7 @@ import ProfileSetupPage from './pages/ProfileSetupPage';
 import DashboardPage from './pages/DashboardPage';
 import TaskListPage from './pages/TaskListPage';
 import MyProjectsPage from './pages/MyProjectsPage';
-
+import MessagesPage from './pages/MessagesPage';
 import './App.css';
 
 function App() {
@@ -24,7 +24,7 @@ function App() {
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/tasklist" element={<TaskListPage />} />
           <Route path="/my-projects" element={<MyProjectsPage />} />
-
+          <Route path="/messages" element={<MessagesPage />} />
         </Routes>
       </div>
     </Router>
